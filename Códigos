@@ -1,0 +1,108 @@
+ionic start CurrencyConverterApp blank --type=angular
+
+cd CurrencyConverterApp
+
+ionic serve (http://localhost:8100)
+
+npm install @angular/common @ionic/storage-angular @angular/http chart.js
+
+import { IonicStorageModule } from '@ionic/storage-angular';
+
+@NgModule({
+  imports: [
+    IonicStorageModule.forRoot()
+  ]
+})
+export class AppModule {}
+
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+
+@Injectable({ providedIn: 'root' })
+export class CurrencyService {
+  private apiKey = 'YOUR_API_KEY';
+  private apiUrl = 'https://v6.exchangerate-api.com/v6';
+
+  constructor(private http: HttpClient) {}
+
+  getRates(base: string) {
+    return this.http.get(`${this.apiUrl}/${this.apiKey}/latest/${base}`);
+  }
+}
+
+ionic generate page home
+ionic generate page history
+ionic generate page settings
+
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Conversor de Moedas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <ion-label>Moeda de Origem</ion-label>
+    <ion-select [(ngModel)]="fromCurrency">
+      <ion-select-option *ngFor="let currency of currencies" [value]="currency">
+        {{ currency }}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Moeda de Destino</ion-label>
+    <ion-select [(ngModel)]="toCurrency">
+      <ion-select-option *ngFor="let currency of currencies" [value]="currency">
+        {{ currency }}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Valor</ion-label>
+    <ion-input type="number" [(ngModel)]="amount"></ion-input>
+  </ion-item>
+
+  <ion-button expand="full" (click)="convert()">Converter</ion-button>
+
+  <ion-item *ngIf="result">
+    Resultado: {{ result }}
+  </ion-item>
+</ion-content>
+
+import { Component, OnInit } from '@angular/core';
+import { CurrencyService } from '../services/currency.service';
+
+@Component({
+  selector: 'app-home',
+  templateUrl: './home.page.html',
+  styleUrls: ['./home.page.scss'],
+})
+export class HomePage implements OnInit {
+  currencies = ['USD', 'EUR', 'BRL', 'JPY', 'GBP'];
+  fromCurrency = 'USD';
+  toCurrency = 'BRL';
+  amount = 0;
+  result: number | null = null;
+
+  constructor(private currencyService: CurrencyService) {}
+
+  ngOnInit() {}
+
+  convert() {
+    this.currencyService.getRates(this.fromCurrency).subscribe((data: any) => {
+      const rate = data.conversion_rates[this.toCurrency];
+      this.result = this.amount * rate;
+    });
+  }
+}
+
+ionic serve
+
+ionic capacitor add android
+
+ionic build --prod
+ionic capacitor copy android
+
+ionic capacitor open android
