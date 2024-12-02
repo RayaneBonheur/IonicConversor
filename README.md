@@ -93,6 +93,8 @@ nodemon
 
 [Apresentação Final](https://www.canva.com/design/DAGYFZy5ndU/9zwkT8umZ8oKkZHTvurz9g/edit?utm_content=DAGYFZy5ndU&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
 
+[Fluxo de Trabalho]([https://www.canva.com/design/DAGYFZy5ndU/9zwkT8umZ8oKkZHTvurz9g/edit?utm_content=DAGYFZy5ndU&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton](https://trello.com/b/YiywHoUM))
+
 ------
 
 ## Contributores
